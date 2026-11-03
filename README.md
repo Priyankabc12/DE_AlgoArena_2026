@@ -22,10 +22,10 @@
 
 | Role | Name | Enrollment No. | GitHub Username |
 |------|------|----------------|-----------------|
-| Group Lead | | | |
-| Member 2 | | | |
-| Member 3 | | | |
-| Member 4 | | | |
+| Group Lead | Priyanka Tiwari | 2501010692 | Priyankabc12 |
+| Member 2 | Abhimanyu | 2501010014 | 4bhiy23 |
+| Member 3 | Kushagra Kaushik | 2501010239 | Kushagrakaushik |
+| Member 4 | Mani Amar Sehgal | 2501010581 | ManiAmarSehgal |
 
 **Team No.:** ____ · **Section:** ____ · **Repository URL:** ____
 
