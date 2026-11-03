@@ -6,6 +6,6 @@
     { "name": "Kushagra Kaushik", "enrollment_no": "2501010239", "github": "Kushagrakaushik" },
     { "name": "Mani Amar Sehgal", "enrollment_no": "2501010581", "github": "ManiAmarSehgal" }
   ],
-  "postgres_version": "",
-  "laptop_used_for_benchmarks": ""
+  "postgres_version": "18",
+  "laptop_used_for_benchmarks": "Macbook-Pro"
 }
