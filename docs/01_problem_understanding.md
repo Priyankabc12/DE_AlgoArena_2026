@@ -1,5 +1,5 @@
 Phase 1 – Problem Understanding
-Team: (Your Team Number) | Lead: Priyanka Tiwari | Members: Abhimanyu, Kushagra Kaushik, Mani Amar Sehgal | Date: November 2026
+Team: (T0106) | Lead: Priyanka Tiwari | Members: Abhimanyu, Kushagra Kaushik, Mani Amar Sehgal | Date: November 2026
 What is the system?
 YouTube allows anyone to create a channel, upload videos or Shorts, and interact with viewers around the world. Every day, millions of users watch videos, subscribe to channels, like or dislike content, leave comments, create playlists, and generate advertising revenue. Some users are Premium members and therefore should never be shown advertisements.
 
