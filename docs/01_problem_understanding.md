@@ -50,7 +50,7 @@ P6 — Shorts and Trending recommendations update too slowly
 - Queries: R10, R11
 - Stakeholder: Recommendations team
 - Business need: Trending videos and Shorts should reflect recent user activity. Slow recomputation means viewers may not see the latest popular content.
-- Type: Reporting / Analytics
+- Type: Reporting / Analytics.
 - Performance target: Under 5,000 ms on the large dataset.
 - Likely root cause: These queries aggregate huge numbers of watch events over recent time periods. Large table scans become increasingly expensive as the database grows.
 P7 — Publishing operations become slow under heavy traffic
