@@ -1,0 +1,102 @@
+erDiagram
+    USERS ||--o| CHANNELS : owns
+    USERS ||--o{ SUBSCRIPTIONS : creates
+    CHANNELS ||--o{ SUBSCRIPTIONS : receives
+    CHANNELS ||--o{ VIDEOS : uploads
+    USERS o|--o{ WATCH_EVENTS : generates
+    VIDEOS ||--o{ WATCH_EVENTS : receives
+    USERS ||--o{ VIDEO_REACTIONS : makes
+    VIDEOS ||--o{ VIDEO_REACTIONS : receives
+    USERS ||--o{ COMMENTS : writes
+    VIDEOS ||--o{ COMMENTS : has
+    COMMENTS o|--o{ COMMENTS : parent_of
+    USERS ||--o{ PLAYLISTS : owns
+    PLAYLISTS ||--o{ PLAYLIST_ITEMS : contains
+    VIDEOS ||--o{ PLAYLIST_ITEMS : appears_in
+    WATCH_EVENTS ||--o{ AD_IMPRESSIONS : shows
+
+    USERS {
+        integer user_id PK
+        varchar email UK
+        varchar display_name
+        char country_code
+        smallint birth_year "nullable"
+        date premium_until "nullable"
+        timestamptz created_at
+    }
+    CHANNELS {
+        integer channel_id PK
+        integer owner_user_id FK, UK
+        varchar handle UK
+        varchar channel_name
+        char country_code
+        boolean is_verified
+        varchar monetization_status
+        integer subscriber_count
+        timestamptz created_at
+    }
+    VIDEOS {
+        char video_id PK
+        integer channel_id FK
+        varchar title
+        text description "nullable"
+        varchar category
+        integer duration_sec
+        boolean is_short
+        boolean is_made_for_kids
+        varchar visibility
+        timestamptz uploaded_at
+        timestamptz published_at "nullable"
+        integer view_count
+    }
+    SUBSCRIPTIONS {
+        integer user_id PK, FK
+        integer channel_id PK, FK
+        varchar notifications
+        timestamptz subscribed_at
+    }
+    WATCH_EVENTS {
+        integer watch_id PK
+        integer user_id FK "nullable"
+        char video_id FK
+        timestamptz started_at
+        integer watch_seconds
+        varchar device
+        varchar traffic_source
+    }
+    VIDEO_REACTIONS {
+        integer user_id PK, FK
+        char video_id PK, FK
+        varchar reaction
+        timestamptz reacted_at
+    }
+    COMMENTS {
+        integer comment_id PK
+        char video_id FK
+        integer user_id FK
+        integer parent_comment_id FK "nullable"
+        text body
+        integer like_count
+        boolean is_pinned
+        timestamptz created_at
+    }
+    PLAYLISTS {
+        integer playlist_id PK
+        integer owner_user_id FK
+        varchar title
+        varchar visibility
+        timestamptz created_at
+    }
+    PLAYLIST_ITEMS {
+        integer playlist_id PK, FK
+        integer position PK
+        char video_id FK
+        timestamptz added_at
+    }
+    AD_IMPRESSIONS {
+        integer impression_id PK
+        integer watch_id FK
+        varchar ad_format
+        numeric revenue_inr
+        timestamptz shown_at
+    }

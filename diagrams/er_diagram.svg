@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2200" height="2200" viewBox="0 0 2200 1500">
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .box { fill: #ffffff; stroke: #334155; stroke-width: 2; rx: 10; }
+      .head { fill: #1e3a5f; }
+      .title { fill: white; font: 700 21px Arial, sans-serif; }
+      .field { fill: #0f172a; font: 16px Menlo, Consolas, monospace; }
+      .key { fill: #9a3412; font-weight: 700; }
+      .edge { fill: none; stroke: #64748b; stroke-width: 2; }
+      .label { fill: #334155; font: 15px Arial, sans-serif; paint-order: stroke; stroke: #f8fafc; stroke-width: 5px; }
+      .legend { fill: #334155; font: 16px Arial, sans-serif; }
+    </style>
+    <marker id="many" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M1,1 L10,6 L1,11 M10,6 L1,6" fill="none" stroke="#64748b" stroke-width="1.5"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="2200" height="1500"/>
+  <text x="50" y="38" style="font:700 28px Arial,sans-serif;fill:#0f172a">YouTube Database — ER Diagram (T0106)</text>
+  <text x="1580" y="38" class="legend">PK = primary key · FK = foreign key · UK = unique key · ? = nullable</text>
+
+  <!-- Relationship lines are behind the entities. Cardinalities are written on each line. -->
+  <path class="edge" d="M320 350 V430"/><text x="330" y="397" class="label">1 — 0..1 owns</text>
+  <path class="edge" d="M110 350 V980"/><text x="120" y="930" class="label">1 — N subscriptions</text>
+  <path class="edge" d="M430 720 V980"/><text x="440" y="930" class="label">1 — N subscriptions</text>
+  <path class="edge" d="M590 560 H700"/><text x="605" y="548" class="label">1 — N uploads</text>
+  <path class="edge" d="M590 230 H680 V625 H700"/><text x="600" y="214" class="label">0..1 — N watches</text>
+  <path class="edge" d="M1040 380 V500"/><text x="1050" y="454" class="label">1 — N views</text>
+  <path class="edge" d="M590 165 H1390"/><text x="1040" y="153" class="label">1 — N reactions</text>
+  <path class="edge" d="M1260 250 H1390"/><text x="1270" y="238" class="label">1 — N reactions</text>
+  <path class="edge" d="M590 290 H1340 V525 H1390"/><text x="1230" y="514" class="label">1 — N comments</text>
+  <path class="edge" d="M1260 305 H1320 V610 H1390"/><text x="1270" y="294" class="label">1 — N comments</text>
+  <path class="edge" d="M2030 525 C2140 525 2140 705 2030 705"/><text x="2040" y="625" class="label">0..1 — N replies</text>
+  <path class="edge" d="M590 330 H1320 V985 H1390"/><text x="1240" y="973" class="label">1 — N playlists</text>
+  <path class="edge" d="M1710 1120 V1220"/><text x="1720" y="1180" class="label">1 — N items</text>
+  <path class="edge" d="M1260 335 H1300 V1350 H1390"/><text x="1270" y="1338" class="label">1 — N items</text>
+  <path class="edge" d="M1040 810 V1030"/><text x="1050" y="930" class="label">1 — N ads</text>
+
+  <!-- USERS -->
+  <g transform="translate(50,70)">
+    <rect class="box" width="540" height="280"/><path class="head" d="M10 0 H530 Q540 0 540 10 V52 H0 V10 Q0 0 10 0"/>
+    <text x="20" y="34" class="title">USERS</text>
+    <text x="20" y="82" class="field key">PK  user_id : INTEGER</text>
+    <text x="20" y="110" class="field key">UK  email : VARCHAR(150)</text>
+    <text x="20" y="138" class="field">    display_name : VARCHAR(100)</text>
+    <text x="20" y="166" class="field">    country_code : CHAR(2)</text>
+    <text x="20" y="194" class="field"> ?  birth_year : SMALLINT</text>
+    <text x="20" y="222" class="field"> ?  premium_until : DATE</text>
+    <text x="20" y="250" class="field">    created_at : TIMESTAMPTZ</text>
+  </g>
+
+  <!-- CHANNELS -->
+  <g transform="translate(50,430)">
+    <rect class="box" width="540" height="290"/><path class="head" d="M10 0 H530 Q540 0 540 10 V52 H0 V10 Q0 0 10 0"/>
+    <text x="20" y="34" class="title">CHANNELS</text>
+    <text x="20" y="80" class="field key">PK  channel_id : INTEGER</text>
+    <text x="20" y="106" class="field key">FK/UK owner_user_id : INTEGER</text>
+    <text x="20" y="132" class="field key">UK  handle : VARCHAR(50)</text>
+    <text x="20" y="158" class="field">    channel_name : VARCHAR(150)</text>
+    <text x="20" y="184" class="field">    country_code : CHAR(2)</text>
+    <text x="20" y="210" class="field">    is_verified : BOOLEAN</text>
+    <text x="20" y="236" class="field">    monetization_status : VARCHAR(20)</text>
+    <text x="20" y="262" class="field">    subscriber_count : INTEGER</text>
+  </g>
+
+  <!-- SUBSCRIPTIONS -->
+  <g transform="translate(50,980)">
+    <rect class="box" width="540" height="190"/><path class="head" d="M10 0 H530 Q540 0 540 10 V52 H0 V10 Q0 0 10 0"/>
+    <text x="20" y="34" class="title">SUBSCRIPTIONS</text>
+    <text x="20" y="82" class="field key">PK/FK user_id : INTEGER</text>
+    <text x="20" y="110" class="field key">PK/FK channel_id : INTEGER</text>
+    <text x="20" y="138" class="field">      notifications : VARCHAR(20)</text>
+    <text x="20" y="166" class="field">      subscribed_at : TIMESTAMPTZ</text>
+  </g>
+
+  <!-- VIDEOS -->
+  <g transform="translate(700,70)">
+    <rect class="box" width="560" height="310"/><path class="head" d="M10 0 H550 Q560 0 560 10 V52 H0 V10 Q0 0 10 0"/>
+    <text x="20" y="34" class="title">VIDEOS</text>
+    <text x="20" y="78" class="field key">PK  video_id : CHAR(11)</text>
+    <text x="20" y="102" class="field key">FK  channel_id : INTEGER</text>
+    <text x="20" y="126" class="field">    title : VARCHAR(255)</text>
+    <text x="20" y="150" class="field"> ?  description : TEXT</text>
+    <text x="20" y="174" class="field">    category : VARCHAR(50)</text>
+    <text x="20" y="198" class="field">    duration_sec : INTEGER</text>
+    <text x="20" y="222" class="field">    is_short / is_made_for_kids : BOOLEAN</text>
+    <text x="20" y="246" class="field">    visibility : VARCHAR(20)</text>
+    <text x="20" y="270" class="field">    uploaded_at / published_at? : TIMESTAMPTZ</text>
+    <text x="20" y="294" class="field">    view_count : INTEGER</text>
+  </g>
+
+  <!-- WATCH_EVENTS -->
+  <g transform="translate(700,500)">
+    <rect class="box" width="560" height="310"/><path class="head" d="M10 0 H550 Q560 0 560 10 V52 H0 V10 Q0 0 10 0"/>
+    <text x="20" y="34" class="title">WATCH_EVENTS</text>
+    <text x="20" y="84" class="field key">PK  watch_id : INTEGER</text>
+    <text x="20" y="116" class="field key">FK? user_id : INTEGER</text>
+    <text x="20" y="148" class="field key">FK  video_id : CHAR(11)</text>
+    <text x="20" y="180" class="field">    started_at : TIMESTAMPTZ</text>
+    <text x="20" y="212" class="field">    watch_seconds : INTEGER</text>
+    <text x="20" y="244" class="field">    device : VARCHAR(20)</text>
+    <text x="20" y="276" class="field">    traffic_source : VARCHAR(30)</text>
+  </g>
+
+  <!-- AD_IMPRESSIONS -->
+  <g transform="translate(700,1030)">
+    <rect class="box" width="560" height="230"/><path class="head" d="M10 0 H550 Q560 0 560 10 V52 H0 V10 Q0 0 10 0"/>
+    <text x="20" y="34" class="title">AD_IMPRESSIONS</text>
+    <text x="20" y="84" class="field key">PK  impression_id : INTEGER</text>
+    <text x="20" y="116" class="field key">FK  watch_id : INTEGER</text>
+    <text x="20" y="148" class="field">    ad_format : VARCHAR(20)</text>
+    <text x="20" y="180" class="field">    revenue_inr : NUMERIC(10,4)</text>
+    <text x="20" y="212" class="field">    shown_at : TIMESTAMPTZ</text>
+  </g>
+
+  <!-- VIDEO_REACTIONS -->
+  <g transform="translate(1390,70)">
+    <rect class="box" width="640" height="210"/><path class="head" d="M10 0 H630 Q640 0 640 10 V52 H0 V10 Q0 0 10 0"/>
+    <text x="20" y="34" class="title">VIDEO_REACTIONS</text>
+    <text x="20" y="84" class="field key">PK/FK user_id : INTEGER</text>
+    <text x="20" y="116" class="field key">PK/FK video_id : CHAR(11)</text>
+    <text x="20" y="148" class="field">      reaction : VARCHAR(10)</text>
+    <text x="20" y="180" class="field">      reacted_at : TIMESTAMPTZ</text>
+  </g>
+
+  <!-- COMMENTS -->
+  <g transform="translate(1390,400)">
+    <rect class="box" width="640" height="310"/><path class="head" d="M10 0 H630 Q640 0 640 10 V52 H0 V10 Q0 0 10 0"/>
+    <text x="20" y="34" class="title">COMMENTS</text>
+    <text x="20" y="82" class="field key">PK  comment_id : INTEGER</text>
+    <text x="20" y="110" class="field key">FK  video_id : CHAR(11)</text>
+    <text x="20" y="138" class="field key">FK  user_id : INTEGER</text>
+    <text x="20" y="166" class="field key">FK? parent_comment_id : INTEGER</text>
+    <text x="20" y="194" class="field">    body : TEXT</text>
+    <text x="20" y="222" class="field">    like_count : INTEGER</text>
+    <text x="20" y="250" class="field">    is_pinned : BOOLEAN</text>
+    <text x="20" y="278" class="field">    created_at : TIMESTAMPTZ</text>
+  </g>
+
+  <!-- PLAYLISTS -->
+  <g transform="translate(1390,850)">
+    <rect class="box" width="640" height="270"/><path class="head" d="M10 0 H630 Q640 0 640 10 V52 H0 V10 Q0 0 10 0"/>
+    <text x="20" y="34" class="title">PLAYLISTS</text>
+    <text x="20" y="84" class="field key">PK  playlist_id : INTEGER</text>
+    <text x="20" y="120" class="field key">FK  owner_user_id : INTEGER</text>
+    <text x="20" y="156" class="field">    title : VARCHAR(150)</text>
+    <text x="20" y="192" class="field">    visibility : VARCHAR(20)</text>
+    <text x="20" y="228" class="field">    created_at : TIMESTAMPTZ</text>
+  </g>
+
+  <!-- PLAYLIST_ITEMS -->
+  <g transform="translate(1390,1220)">
+    <rect class="box" width="640" height="210"/><path class="head" d="M10 0 H630 Q640 0 640 10 V52 H0 V10 Q0 0 10 0"/>
+    <text x="20" y="34" class="title">PLAYLIST_ITEMS</text>
+    <text x="20" y="84" class="field key">PK/FK playlist_id : INTEGER</text>
+    <text x="20" y="116" class="field key">PK    position : INTEGER</text>
+    <text x="20" y="148" class="field key">FK    video_id : CHAR(11)</text>
+    <text x="20" y="180" class="field">      added_at : TIMESTAMPTZ</text>
+  </g>
+</svg>

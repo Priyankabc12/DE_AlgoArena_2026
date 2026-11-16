@@ -27,7 +27,7 @@
 | Member 3 | Kushagra Kaushik | 2501010239 | Kushagrakaushik |
 | Member 4 | Mani Amar Sehgal | 2501010581 | ManiAmarSehgal |
 
-**Team No.:** ____ · **Section:** ____ · **Repository URL:** ____
+**Team No.:** T0106 · **Section:** ____ · **Repository URL:** https://github.com/Priyankabc12/DE_AlgoArena_2026
 
 ---
 

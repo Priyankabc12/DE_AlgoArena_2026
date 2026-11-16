@@ -1,212 +1,203 @@
-Phase 2 – Schema Design
-Team: <Your Team ID> | Lead: <Leader Name> | Members: <Member Names>
-How we figured out the schema
-We first identified the core entities of a video streaming platform similar to YouTube and then designed tables around them. For every table we decided:
-- What datatype best fits each attribute.
-- Which column uniquely identifies each record.
-- Which columns reference another table.
-- Which attributes can be NULL.
-- Which business rules should be enforced using CHECK constraints.
-All tables are created inside the youtube schema.
-CREATE SCHEMA IF NOT EXISTS youtube;
-SET search_path TO youtube;
+# Phase 2 — Schema Design
 
-Data Dictionary
-Table: users
-| Column | Type | Constraint | Why |
-|---------|------|-----------|-----|
-| user_id | INTEGER | PK | Unique identifier for every user |
-| email | VARCHAR(150) | NOT NULL, UNIQUE | Login email must be unique |
-| display_name | VARCHAR(100) | NOT NULL | User always has a display name |
-| country_code | CHAR(2) | NOT NULL, ISO country code | Stores two-letter country code |
-| birth_year | SMALLINT | NULL allowed | Some users may hide birth year |
-| premium_until | DATE | NULL allowed | NULL means free account |
-| created_at | TIMESTAMPTZ | NOT NULL | Account creation timestamp |
+**Team:** T0106 · **Lead:** Priyanka Tiwari · **Members:** Abhimanyu, Kushagra Kaushik, Mani Amar Sehgal
 
+The schema is derived from the ten supplied CSV exports. All tables are created in the `youtube` schema, and Phase 2 contains constraints only—no tuning indexes.
 
-Indexes created automatically:
-- Primary Key on user_id
-- Unique index on email
-Table: channels
-| Column | Type | Constraint | Why |
-|---------|------|-----------|-----|
-| channel_id | INTEGER | PK | Unique channel identifier |
-| owner_user_id | INTEGER | NOT NULL, UNIQUE, FK → users | One user owns one channel |
-| handle | VARCHAR(50) | NOT NULL, UNIQUE | Public channel handle |
-| channel_name | VARCHAR(150) | NOT NULL | Display name |
-| country_code | CHAR(2) | NOT NULL | Channel location |
-| is_verified | BOOLEAN | NOT NULL | Verification status |
-| monetization_status | VARCHAR(20) | NOT NULL | Monetization eligibility |
-| subscriber_count | INTEGER | NOT NULL DEFAULT 0 | Cached subscriber count |
-| created_at | TIMESTAMPTZ | NOT NULL | Channel creation time |
+## Data dictionary
 
+### `users`
 
-Table: videos
-This is the central content table.
-| Column | Type | Constraint | Why |
-|---------|------|-----------|-----|
-| video_id | CHAR(11) | PK | Uses YouTube-style 11-character ID |
-| channel_id | INTEGER | NOT NULL, FK → channels | Every video belongs to a channel |
-| title | VARCHAR(255) | NOT NULL | Video title |
-| description | TEXT | NULL allowed | Optional description |
-| category | VARCHAR(50) | NOT NULL | Video category |
-| duration_sec | INTEGER | NOT NULL | Duration in seconds |
-| is_short | BOOLEAN | NOT NULL | Indicates Shorts content |
-| is_made_for_kids | BOOLEAN | NOT NULL | COPPA compliance |
-| visibility | VARCHAR(20) | NOT NULL | PUBLIC, PRIVATE, etc. |
-| uploaded_at | TIMESTAMPTZ | NOT NULL | Upload time |
-| published_at | TIMESTAMPTZ | NULL allowed | NULL until published |
-| view_count | INTEGER | NOT NULL DEFAULT 0 | Cached view count |
+| Column | Type | Constraints | Reason |
+|---|---|---|---|
+| `user_id` | `INTEGER` | PK | Exported user identifier. |
+| `email` | `VARCHAR(150)` | NOT NULL, UNIQUE, email-format CHECK | Login email is present and unique. |
+| `display_name` | `VARCHAR(100)` | NOT NULL, non-blank CHECK | Displayed user name. |
+| `country_code` | `CHAR(2)` | NOT NULL, two-uppercase-letter CHECK | Two-letter country code. |
+| `birth_year` | `SMALLINT` | NULL allowed | 4,433 users do not provide it. |
+| `premium_until` | `DATE` | NULL allowed | NULL represents no recorded Premium expiry. |
+| `created_at` | `TIMESTAMPTZ` | NOT NULL | Account creation instant with offset. |
 
+### `channels`
 
-Table: subscriptions
-Composite Primary Key: (user_id, channel_id)
-| Column | Type | Constraint | Why |
-|---------|------|-----------|-----|
-| user_id | INTEGER | PK, FK → users | Subscriber |
-| channel_id | INTEGER | PK, FK → channels | Subscribed channel |
-| notifications | VARCHAR(20) | NOT NULL | Notification preference |
-| subscribed_at | TIMESTAMPTZ | NOT NULL | Subscription timestamp |
+| Column | Type | Constraints | Reason |
+|---|---|---|---|
+| `channel_id` | `INTEGER` | PK | Exported channel identifier. |
+| `owner_user_id` | `INTEGER` | NOT NULL, UNIQUE, FK → `users.user_id`, ON DELETE CASCADE | Every exported channel has one distinct owner. |
+| `handle` | `VARCHAR(50)` | NOT NULL, UNIQUE, `@`-handle CHECK | Public candidate key. |
+| `channel_name` | `VARCHAR(150)` | NOT NULL, non-blank CHECK | Public display name. |
+| `country_code` | `CHAR(2)` | NOT NULL, format CHECK | Channel country. |
+| `is_verified` | `BOOLEAN` | NOT NULL | Verification flag. |
+| `monetization_status` | `VARCHAR(20)` | NOT NULL, allowed-value CHECK | `ELIGIBLE`, `NOT_ELIGIBLE`, or `SUSPENDED`. |
+| `subscriber_count` | `INTEGER` | NOT NULL, DEFAULT 0, non-negative CHECK | Stored count used by the workload. |
+| `created_at` | `TIMESTAMPTZ` | NOT NULL | Channel creation instant. |
 
+### `videos`
 
-Table: watch_events
-| Column | Type | Constraint | Why |
-|---------|------|-----------|-----|
-| watch_id | INTEGER | PK | Unique watch session |
-| user_id | INTEGER | NULL allowed, FK → users | Anonymous viewers allowed |
-| video_id | CHAR(11) | NOT NULL, FK → videos | Video being watched |
-| started_at | TIMESTAMPTZ | NOT NULL | Watch start time |
-| watch_seconds | INTEGER | NOT NULL | Seconds watched |
-| device | VARCHAR(20) | NOT NULL | Mobile, Desktop, TV etc. |
-| traffic_source | VARCHAR(30) | NOT NULL | Search, Recommended, External |
+| Column | Type | Constraints | Reason |
+|---|---|---|---|
+| `video_id` | `CHAR(11)` | PK, 11-character ID CHECK | Workload uses YouTube-style fixed-length IDs. |
+| `channel_id` | `INTEGER` | NOT NULL, FK → `channels.channel_id`, ON DELETE CASCADE | Uploading channel. |
+| `title` | `VARCHAR(255)` | NOT NULL, non-blank CHECK | Video title. |
+| `description` | `TEXT` | NULL allowed | 9,083 descriptions are empty. |
+| `category` | `VARCHAR(50)` | NOT NULL, allowed-value CHECK | One of the ten exported categories. |
+| `duration_sec` | `INTEGER` | NOT NULL, positive CHECK | Video duration in seconds. |
+| `is_short` | `BOOLEAN` | NOT NULL, Shorts-duration CHECK | Identifies Shorts; true requires duration ≤ 60 seconds. |
+| `is_made_for_kids` | `BOOLEAN` | NOT NULL, DEFAULT FALSE | Child-safety flag; default lets supplied W01 omit it. |
+| `visibility` | `VARCHAR(20)` | NOT NULL, allowed-value CHECK | `PUBLIC`, `PRIVATE`, `UNLISTED`, or `SCHEDULED`. |
+| `uploaded_at` | `TIMESTAMPTZ` | NOT NULL | Upload instant. |
+| `published_at` | `TIMESTAMPTZ` | NULL allowed, state/order CHECKs | NULL only for private videos; never before upload. |
+| `view_count` | `INTEGER` | NOT NULL, DEFAULT 0, non-negative CHECK | Stored counter used by the workload. |
 
+### `subscriptions`
 
-Table: video_reactions
-Composite Primary Key: (user_id, video_id)
-| Column | Type | Constraint | Why |
-|---------|------|-----------|-----|
-| user_id | INTEGER | PK, FK → users | User reacting |
-| video_id | CHAR(11) | PK, FK → videos | Target video |
-| reaction | VARCHAR(10) | NOT NULL | LIKE or DISLIKE |
-| reacted_at | TIMESTAMPTZ | NOT NULL | Reaction timestamp |
+| Column | Type | Constraints | Reason |
+|---|---|---|---|
+| `user_id` | `INTEGER` | PK, FK → `users.user_id`, ON DELETE CASCADE | Subscriber. |
+| `channel_id` | `INTEGER` | PK, FK → `channels.channel_id`, ON DELETE CASCADE | Subscribed channel. |
+| `notifications` | `VARCHAR(20)` | NOT NULL, allowed-value CHECK | `ALL`, `NONE`, or `PERSONALIZED`. |
+| `subscribed_at` | `TIMESTAMPTZ` | NOT NULL | Subscription instant. |
 
+The composite primary key (`user_id`, `channel_id`) permits at most one subscription between the same user and channel.
 
-Table: comments
-| Column | Type | Constraint | Why |
-|---------|------|-----------|-----|
-| comment_id | INTEGER | PK | Unique comment |
-| video_id | CHAR(11) | NOT NULL, FK → videos | Comment belongs to a video |
-| user_id | INTEGER | NOT NULL, FK → users | Author |
-| parent_comment_id | INTEGER | NULL allowed, FK → comments | Supports replies |
-| body | TEXT | NOT NULL | Comment text |
-| like_count | INTEGER | DEFAULT 0 | Cached likes |
-| is_pinned | BOOLEAN | NOT NULL | Creator pinned comment |
-| created_at | TIMESTAMPTZ | NOT NULL | Creation timestamp |
+### `watch_events`
 
+| Column | Type | Constraints | Reason |
+|---|---|---|---|
+| `watch_id` | `INTEGER` | PK | Exported watch identifier. |
+| `user_id` | `INTEGER` | NULL allowed, FK → `users.user_id`, ON DELETE SET NULL | NULL represents signed-out viewing and preserves the event if a user is removed. |
+| `video_id` | `CHAR(11)` | NOT NULL, FK → `videos.video_id`, ON DELETE CASCADE | Watched video. |
+| `started_at` | `TIMESTAMPTZ` | NOT NULL | Watch start instant. |
+| `watch_seconds` | `INTEGER` | NOT NULL, non-negative CHECK | Watched duration. |
+| `device` | `VARCHAR(20)` | NOT NULL, allowed-value CHECK | `ANDROID`, `IOS`, `TV`, or `WEB`. |
+| `traffic_source` | `VARCHAR(30)` | NOT NULL, allowed-value CHECK | One of the six exported discovery sources. |
 
-Table: playlists
-| Column | Type | Constraint | Why |
-|---------|------|-----------|-----|
-| playlist_id | INTEGER | PK | Playlist identifier |
-| owner_user_id | INTEGER | NOT NULL, FK → users | Playlist owner |
-| title | VARCHAR(150) | NOT NULL | Playlist title |
-| visibility | VARCHAR(20) | NOT NULL | PUBLIC, PRIVATE or UNLISTED |
-| created_at | TIMESTAMPTZ | NOT NULL | Creation timestamp |
+### `video_reactions`
 
+| Column | Type | Constraints | Reason |
+|---|---|---|---|
+| `user_id` | `INTEGER` | PK, FK → `users.user_id`, ON DELETE CASCADE | Reacting user. |
+| `video_id` | `CHAR(11)` | PK, FK → `videos.video_id`, ON DELETE CASCADE | Reacted-to video. |
+| `reaction` | `VARCHAR(10)` | NOT NULL, allowed-value CHECK | `LIKE` or `DISLIKE`. |
+| `reacted_at` | `TIMESTAMPTZ` | NOT NULL | Reaction instant. |
 
-Table: playlist_items
-Composite Primary Key: (playlist_id, position)
-| Column | Type | Constraint | Why |
-|---------|------|-----------|-----|
-| playlist_id | INTEGER | PK, FK → playlists | Playlist |
-| position | INTEGER | PK | Order inside playlist |
-| video_id | CHAR(11) | NOT NULL, FK → videos | Video added |
-| added_at | TIMESTAMPTZ | NOT NULL | Time added |
+The composite primary key (`user_id`, `video_id`) permits one current reaction per user and video.
 
+### `comments`
 
-Table: ad_impressions
-| Column | Type | Constraint | Why |
-|---------|------|-----------|-----|
-| impression_id | INTEGER | PK | Advertisement impression |
-| watch_id | INTEGER | NOT NULL, FK → watch_events | Watch session |
-| ad_format | VARCHAR(20) | NOT NULL | Banner, Skippable, etc. |
-| revenue_inr | NUMERIC(10,4) | NOT NULL | Ad revenue earned |
-| shown_at | TIMESTAMPTZ | NOT NULL | Impression time |
+| Column | Type | Constraints | Reason |
+|---|---|---|---|
+| `comment_id` | `INTEGER` | PK | Exported comment identifier. |
+| `video_id` | `CHAR(11)` | NOT NULL, FK → `videos.video_id`, ON DELETE CASCADE | Commented video. |
+| `user_id` | `INTEGER` | NOT NULL, FK → `users.user_id`, ON DELETE CASCADE | Comment author. |
+| `parent_comment_id` | `INTEGER` | NULL allowed, self-FK, ON DELETE CASCADE | NULL for top-level comments; otherwise identifies the parent. |
+| `body` | `TEXT` | NOT NULL, non-blank CHECK | Comment text. |
+| `like_count` | `INTEGER` | NOT NULL, DEFAULT 0, non-negative CHECK | Stored comment-like count. |
+| `is_pinned` | `BOOLEAN` | NOT NULL, reply-not-pinned CHECK | Pinned state; replies cannot be pinned in the export. |
+| `created_at` | `TIMESTAMPTZ` | NOT NULL | Comment instant. |
 
+### `playlists`
 
-ER Diagram
-See:
-diagrams/er_diagram.png
+| Column | Type | Constraints | Reason |
+|---|---|---|---|
+| `playlist_id` | `INTEGER` | PK | Exported playlist identifier. |
+| `owner_user_id` | `INTEGER` | NOT NULL, FK → `users.user_id`, ON DELETE CASCADE | Playlist owner. |
+| `title` | `VARCHAR(150)` | NOT NULL, non-blank CHECK | Playlist title. |
+| `visibility` | `VARCHAR(20)` | NOT NULL, allowed-value CHECK | `PUBLIC`, `PRIVATE`, or `UNLISTED`. |
+| `created_at` | `TIMESTAMPTZ` | NOT NULL | Playlist creation instant. |
 
-and
-diagrams/er_diagram.mmd
+### `playlist_items`
 
-Relationships
-- users → channels : 1 : 1
-- channels → videos : 1 : N
-- users → subscriptions : 1 : N
-- channels → subscriptions : 1 : N
-- videos → watch_events : 1 : N
-- users → watch_events : 1 : N (optional)
-- users → video_reactions : 1 : N
-- videos → video_reactions : 1 : N
-- videos → comments : 1 : N
-- comments → comments : 1 : N (Replies)
-- users → playlists : 1 : N
-- playlists → playlist_items : 1 : N
-- videos → playlist_items : 1 : N
-- watch_events → ad_impressions : 1 : N
-Normal Form Analysis
-Why each table is in 3NF/BCNF
-users:
-Primary key is user_id. Email is a candidate key (UNIQUE). Every non-key attribute depends only on user_id. No transitive dependency exists. 3NF ✅
-channels:
-Primary key is channel_id. Both handle and owner_user_id are candidate keys. Every attribute depends only on channel_id. 3NF ✅
-videos:
-Primary key is video_id. All attributes describe a single video. view_count is a denormalized value maintained for fast retrieval instead of calculating from watch history each time. 3NF ✅ (with justified redundancy)
-subscriptions:
-Composite primary key (user_id, channel_id) uniquely identifies each subscription. Notification settings and subscription time depend on the entire key. 3NF ✅
-watch_events:
-Primary key is watch_id. Every attribute describes a single watch session. No partial or transitive dependency exists. 3NF ✅
-video_reactions:
-Composite primary key (user_id, video_id) ensures one reaction per user per video. reaction depends on both columns together. 3NF ✅
-comments:
-Primary key is comment_id. Every attribute depends only on the comment. Self-reference through parent_comment_id does not introduce redundancy. 3NF ✅
-playlists:
-Primary key is playlist_id. All attributes depend only on this key. 3NF ✅
-playlist_items:
-Composite primary key (playlist_id, position) uniquely identifies each playlist entry. Video information depends on the full key. 3NF ✅
-ad_impressions:
-Primary key is impression_id. All attributes describe one advertisement impression. 3NF ✅
-Integrity Check Results
-After loading the database:
-| Check | Query | Result |
-|--------|-------|--------|
-| IC1: Videos without valid channels | Every video belongs to an existing channel | **0 violations** ✅ |
-| IC2: Subscriptions without users/channels | All foreign keys valid | **0 violations** ✅ |
-| IC3: Comments without videos | Every comment references a valid video | **0 violations** ✅ |
-| IC4: Playlist items without videos | All playlist entries reference valid videos | **0 violations** ✅ |
-| IC5: Ad impressions without watch events | Every impression belongs to a watch event | **0 violations** ✅ |
+| Column | Type | Constraints | Reason |
+|---|---|---|---|
+| `playlist_id` | `INTEGER` | PK, FK → `playlists.playlist_id`, ON DELETE CASCADE | Parent playlist. |
+| `position` | `INTEGER` | PK, positive CHECK | Display position within that playlist. |
+| `video_id` | `CHAR(11)` | NOT NULL, FK → `videos.video_id`, ON DELETE CASCADE | Included video. |
+| `added_at` | `TIMESTAMPTZ` | NOT NULL | Addition instant. |
 
+The composite primary key (`playlist_id`, `position`) prevents duplicate positions inside a playlist.
 
-Example row counts after data load:
-| Table | Loaded |
-|--------|--------|
-| users | *Depends on dataset* |
-| channels | *Depends on dataset* |
-| videos | *Depends on dataset* |
-| subscriptions | *Depends on dataset* |
-| watch_events | *Depends on dataset* |
-| video_reactions | *Depends on dataset* |
-| comments | *Depends on dataset* |
-| playlists | *Depends on dataset* |
-| playlist_items | *Depends on dataset* |
-| ad_impressions | *Depends on dataset* |
+### `ad_impressions`
 
+| Column | Type | Constraints | Reason |
+|---|---|---|---|
+| `impression_id` | `INTEGER` | PK | Exported impression identifier. |
+| `watch_id` | `INTEGER` | NOT NULL, FK → `watch_events.watch_id`, ON DELETE CASCADE | Watch during which the ad appeared. |
+| `ad_format` | `VARCHAR(20)` | NOT NULL, allowed-value CHECK | `PREROLL` or `MIDROLL`. |
+| `revenue_inr` | `NUMERIC(10,4)` | NOT NULL, non-negative CHECK | Exact INR revenue with four decimal places. |
+| `shown_at` | `TIMESTAMPTZ` | NOT NULL | Ad display instant. |
 
-Data Problems Found
-1. Anonymous watch events: Some records have NULL user_id, representing viewers who watched videos without logging in. The schema allows this using ON DELETE SET NULL.
-2. Scheduled or private videos: Some videos have NULL published_at because they are either scheduled for future publication or remain private.
-3. Reply comments: parent_comment_id is NULL for top-level comments and populated only for replies, supporting threaded discussions.
-4. Cached counts: subscriber_count, view_count, and like_count are stored as denormalized values for faster reads instead of recalculating them from subscriptions, watch events, or reactions each time.
-5. Premium membership: premium_until is NULL for users with free accounts, indicating they have never subscribed to the premium service.
+## Relationships
+
+- `users` 1:0..1 `channels` in the supplied data (`owner_user_id` is unique).
+- `users` and `channels` are M:N through `subscriptions`.
+- `channels` 1:N `videos`.
+- `users` 0..1:N `watch_events`; the user side is optional for signed-out views.
+- `videos` 1:N `watch_events`.
+- `users` and `videos` are M:N through `video_reactions`.
+- `users` 1:N `comments`; `videos` 1:N `comments`; `comments` 1:N reply comments.
+- `users` 1:N `playlists`; `playlists` and `videos` are M:N through `playlist_items`.
+- `watch_events` 1:N `ad_impressions`.
+
+Editable Mermaid source and the rendered diagram are in `diagrams/er_diagram.mmd` and `diagrams/er_diagram.svg`.
+
+## Functional dependencies and normal forms
+
+| Table | Candidate key(s) and functional dependencies | Normal-form conclusion |
+|---|---|---|
+| `users` | `user_id →` all other columns; `email →` all other columns. | BCNF: every determinant shown is a candidate key. |
+| `channels` | `channel_id →` all other columns; `owner_user_id →` all other columns; `handle →` all other columns. | BCNF for the supplied 1:1 ownership rule. |
+| `videos` | `video_id →` all other columns. | 3NF, with deliberate derived/stored fields noted below. |
+| `subscriptions` | (`user_id`, `channel_id`) `→ notifications, subscribed_at`. | BCNF: non-key attributes depend on the whole composite key. |
+| `watch_events` | `watch_id → user_id, video_id, started_at, watch_seconds, device, traffic_source`. | BCNF. |
+| `video_reactions` | (`user_id`, `video_id`) `→ reaction, reacted_at`. | BCNF. |
+| `comments` | `comment_id → video_id, user_id, parent_comment_id, body, like_count, is_pinned, created_at`. | 3NF, with a stored counter noted below. |
+| `playlists` | `playlist_id → owner_user_id, title, visibility, created_at`. | BCNF. |
+| `playlist_items` | (`playlist_id`, `position`) `→ video_id, added_at`. | BCNF. |
+| `ad_impressions` | `impression_id → watch_id, ad_format, revenue_inr, shown_at`. | BCNF. |
+
+### Stored or derivable values
+
+- `channels.subscriber_count` can be derived from `subscriptions`.
+- `videos.view_count` can be derived from `watch_events`.
+- `comments.like_count` is a stored counter because no comment-reaction export exists.
+- `videos.is_short` can be inferred from duration under the supplied ≤60-second rule.
+
+These fields are retained because they occur in the export and the fixed workload reads or updates them. Their redundancy must be kept consistent by the application or scheduled jobs.
+
+## Load and integrity results
+
+The seed files load in parent-before-child order.
+
+| Table | Expected rows | Loaded rows |
+|---|---:|---:|
+| `users` | 30,000 | 30,000 |
+| `channels` | 3,000 | 3,000 |
+| `videos` | 30,000 | 30,000 |
+| `subscriptions` | 129,253 | 129,253 |
+| `watch_events` | 200,000 | 200,000 |
+| `video_reactions` | 67,417 | 67,417 |
+| `comments` | 60,000 | 60,000 |
+| `playlists` | 8,000 | 8,000 |
+| `playlist_items` | 56,005 | 56,005 |
+| `ad_impressions` | 57,014 | 57,014 |
+| **Total** | **640,689** | **640,689** |
+
+| Integrity check | Violations |
+|---|---:|
+| Watches before their video's upload time | 0 |
+| Watch duration greater than video duration | 0 |
+| Reply attached to a different video than its parent | 0 |
+| Duplicate video within one playlist | 0 |
+
+## Data observations
+
+- `users.birth_year` is empty in 4,433 rows and `premium_until` in 27,602 rows.
+- `videos.description` is empty in 9,083 rows. `published_at` is empty in 1,526 rows, all private videos.
+- `watch_events.user_id` is empty in 49,964 rows, representing signed-out views.
+- `comments.parent_comment_id` is empty in 52,610 top-level comments.
+- All primary keys, candidate keys, and foreign-key references in the supplied files are valid.
+
+## Automatically created indexes
+
+PostgreSQL creates indexes for primary-key and UNIQUE constraints. Therefore Phase 2 has indexes for each table's primary key plus `users.email`, `channels.owner_user_id`, and `channels.handle`. No performance-tuning index is added before the baseline phase.
