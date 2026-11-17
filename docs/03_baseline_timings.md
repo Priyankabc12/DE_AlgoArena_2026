@@ -1,6 +1,6 @@
 # Phase 3 – Baseline Query Timings
 
-**Team:** <Your Team ID> | **Lead:** <Leader Name> | **Members:** <Member Names> | **Database:** youtube_db (PostgreSQL 16.x) | **Machine:** <Your Machine>
+**Team:** T0106 | **Lead:** Priyanka Tiwari | **Members:** Abhimanyu, Kushagra Kaushik | **Database:** youtube_db (PostgreSQL 16.x) | **Machine:** M4
 
 **Method:** `EXPLAIN (ANALYZE, BUFFERS)` · 3 runs each · average reported · write queries inside `BEGIN … ROLLBACK`
 
