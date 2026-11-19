@@ -1,0 +1,115 @@
+=== W04 run 1 ===
+Update on channels c  (cost=2924.84..3006.19 rows=0 width=0) (actual time=30.612..30.614 rows=0 loops=1)
+  Buffers: shared hit=40011 read=74 dirtied=145 written=35
+  ->  Hash Join  (cost=2924.84..3006.19 rows=2986 width=46) (actual time=15.303..16.164 rows=3000 loops=1)
+        Hash Cond: (c.channel_id = s.channel_id)
+        Buffers: shared hit=925
+        ->  Seq Scan on channels c  (cost=0.00..66.00 rows=3000 width=10) (actual time=0.006..0.235 rows=3000 loops=1)
+              Buffers: shared hit=36
+        ->  Hash  (cost=2887.52..2887.52 rows=2986 width=48) (actual time=15.286..15.287 rows=3000 loops=1)
+              Buckets: 4096  Batches: 1  Memory Usage: 279kB
+              Buffers: shared hit=889
+              ->  Subquery Scan on s  (cost=2827.80..2887.52 rows=2986 width=48) (actual time=14.797..15.081 rows=3000 loops=1)
+                    Buffers: shared hit=889
+                    ->  HashAggregate  (cost=2827.80..2857.66 rows=2986 width=12) (actual time=14.759..14.872 rows=3000 loops=1)
+                          Group Key: subscriptions.channel_id
+                          Batches: 1  Memory Usage: 369kB
+                          Buffers: shared hit=889
+                          ->  Seq Scan on subscriptions  (cost=0.00..2181.53 rows=129253 width=4) (actual time=0.003..3.210 rows=129253 loops=1)
+                                Buffers: shared hit=889
+Planning:
+  Buffers: shared hit=179
+Planning Time: 0.643 ms
+Execution Time: 30.719 ms
+=== W04 run 2 ===
+Update on channels c  (cost=2924.84..3078.02 rows=0 width=0) (actual time=25.596..25.597 rows=0 loops=1)
+  Buffers: shared hit=47218 dirtied=35 written=35
+  ->  Hash Join  (cost=2924.84..3078.02 rows=2986 width=46) (actual time=12.323..13.062 rows=3000 loops=1)
+        Hash Cond: (c.channel_id = s.channel_id)
+        Buffers: shared hit=960
+        ->  Seq Scan on channels c  (cost=0.00..130.17 rows=5917 width=10) (actual time=0.009..0.323 rows=3000 loops=1)
+              Buffers: shared hit=71
+        ->  Hash  (cost=2887.52..2887.52 rows=2986 width=48) (actual time=12.306..12.306 rows=3000 loops=1)
+              Buckets: 4096  Batches: 1  Memory Usage: 279kB
+              Buffers: shared hit=889
+              ->  Subquery Scan on s  (cost=2827.80..2887.52 rows=2986 width=48) (actual time=11.844..12.120 rows=3000 loops=1)
+                    Buffers: shared hit=889
+                    ->  HashAggregate  (cost=2827.80..2857.66 rows=2986 width=12) (actual time=11.816..11.930 rows=3000 loops=1)
+                          Group Key: subscriptions.channel_id
+                          Batches: 1  Memory Usage: 369kB
+                          Buffers: shared hit=889
+                          ->  Seq Scan on subscriptions  (cost=0.00..2181.53 rows=129253 width=4) (actual time=0.001..2.883 rows=129253 loops=1)
+                                Buffers: shared hit=889
+Planning:
+  Buffers: shared hit=179
+Planning Time: 0.358 ms
+Execution Time: 25.648 ms
+=== W04 run 3 ===
+Update on channels c  (cost=2924.84..3149.83 rows=0 width=0) (actual time=27.518..27.519 rows=0 loops=1)
+  Buffers: shared hit=48715 dirtied=35 written=35
+  ->  Hash Join  (cost=2924.84..3149.83 rows=2986 width=46) (actual time=12.129..13.104 rows=3000 loops=1)
+        Hash Cond: (c.channel_id = s.channel_id)
+        Buffers: shared hit=995
+        ->  Seq Scan on channels c  (cost=0.00..194.33 rows=8833 width=10) (actual time=0.010..0.348 rows=3000 loops=1)
+              Buffers: shared hit=106
+        ->  Hash  (cost=2887.52..2887.52 rows=2986 width=48) (actual time=12.073..12.074 rows=3000 loops=1)
+              Buckets: 4096  Batches: 1  Memory Usage: 279kB
+              Buffers: shared hit=889
+              ->  Subquery Scan on s  (cost=2827.80..2887.52 rows=2986 width=48) (actual time=11.630..11.905 rows=3000 loops=1)
+                    Buffers: shared hit=889
+                    ->  HashAggregate  (cost=2827.80..2857.66 rows=2986 width=12) (actual time=11.621..11.735 rows=3000 loops=1)
+                          Group Key: subscriptions.channel_id
+                          Batches: 1  Memory Usage: 369kB
+                          Buffers: shared hit=889
+                          ->  Seq Scan on subscriptions  (cost=0.00..2181.53 rows=129253 width=4) (actual time=0.002..2.868 rows=129253 loops=1)
+                                Buffers: shared hit=889
+Planning:
+  Buffers: shared hit=179
+Planning Time: 0.397 ms
+Execution Time: 27.582 ms
+=== W04 run 4 ===
+Update on channels c  (cost=2924.84..3221.66 rows=0 width=0) (actual time=29.137..29.139 rows=0 loops=1)
+  Buffers: shared hit=48577 dirtied=42 written=39
+  ->  Hash Join  (cost=2924.84..3221.66 rows=2986 width=46) (actual time=12.752..13.760 rows=3000 loops=1)
+        Hash Cond: (c.channel_id = s.channel_id)
+        Buffers: shared hit=1030
+        ->  Seq Scan on channels c  (cost=0.00..258.50 rows=11750 width=10) (actual time=0.008..0.398 rows=3000 loops=1)
+              Buffers: shared hit=141
+        ->  Hash  (cost=2887.52..2887.52 rows=2986 width=48) (actual time=12.730..12.730 rows=3000 loops=1)
+              Buckets: 4096  Batches: 1  Memory Usage: 279kB
+              Buffers: shared hit=889
+              ->  Subquery Scan on s  (cost=2827.80..2887.52 rows=2986 width=48) (actual time=12.238..12.542 rows=3000 loops=1)
+                    Buffers: shared hit=889
+                    ->  HashAggregate  (cost=2827.80..2857.66 rows=2986 width=12) (actual time=12.208..12.326 rows=3000 loops=1)
+                          Group Key: subscriptions.channel_id
+                          Batches: 1  Memory Usage: 369kB
+                          Buffers: shared hit=889
+                          ->  Seq Scan on subscriptions  (cost=0.00..2181.53 rows=129253 width=4) (actual time=0.001..2.978 rows=129253 loops=1)
+                                Buffers: shared hit=889
+Planning:
+  Buffers: shared hit=179
+Planning Time: 0.311 ms
+Execution Time: 29.196 ms
+=== W04 run 5 ===
+Update on channels c  (cost=2924.84..3293.49 rows=0 width=0) (actual time=25.969..25.970 rows=0 loops=1)
+  Buffers: shared hit=48896 dirtied=39 written=39
+  ->  Hash Join  (cost=2924.84..3293.49 rows=2986 width=46) (actual time=12.318..13.088 rows=3000 loops=1)
+        Hash Cond: (c.channel_id = s.channel_id)
+        Buffers: shared hit=1065
+        ->  Seq Scan on channels c  (cost=0.00..322.67 rows=14667 width=10) (actual time=0.008..0.390 rows=3000 loops=1)
+              Buffers: shared hit=176
+        ->  Hash  (cost=2887.52..2887.52 rows=2986 width=48) (actual time=12.303..12.304 rows=3000 loops=1)
+              Buckets: 4096  Batches: 1  Memory Usage: 279kB
+              Buffers: shared hit=889
+              ->  Subquery Scan on s  (cost=2827.80..2887.52 rows=2986 width=48) (actual time=11.863..12.137 rows=3000 loops=1)
+                    Buffers: shared hit=889
+                    ->  HashAggregate  (cost=2827.80..2857.66 rows=2986 width=12) (actual time=11.830..11.943 rows=3000 loops=1)
+                          Group Key: subscriptions.channel_id
+                          Batches: 1  Memory Usage: 369kB
+                          Buffers: shared hit=889
+                          ->  Seq Scan on subscriptions  (cost=0.00..2181.53 rows=129253 width=4) (actual time=0.001..2.848 rows=129253 loops=1)
+                                Buffers: shared hit=889
+Planning:
+  Buffers: shared hit=179
+Planning Time: 0.341 ms
+Execution Time: 26.062 ms

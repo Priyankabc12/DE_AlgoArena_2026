@@ -1,0 +1,50 @@
+=== W02 run 1 ===
+Insert on watch_events  (cost=0.00..0.01 rows=0 width=0) (actual time=0.582..0.582 rows=0 loops=1)
+  Buffers: shared hit=136 read=1 dirtied=4
+  ->  Result  (cost=0.00..0.01 rows=1 width=204) (actual time=0.001..0.001 rows=1 loops=1)
+Planning:
+  Buffers: shared hit=3
+Planning Time: 0.030 ms
+Trigger for constraint watch_events_user_fk: time=0.557 calls=1
+Trigger for constraint watch_events_video_fk: time=0.317 calls=1
+Execution Time: 1.464 ms
+=== W02 run 2 ===
+Insert on watch_events  (cost=0.00..0.01 rows=0 width=0) (actual time=0.222..0.222 rows=0 loops=1)
+  Buffers: shared hit=138
+  ->  Result  (cost=0.00..0.01 rows=1 width=204) (actual time=0.002..0.002 rows=1 loops=1)
+Planning:
+  Buffers: shared hit=3
+Planning Time: 0.056 ms
+Trigger for constraint watch_events_user_fk: time=0.331 calls=1
+Trigger for constraint watch_events_video_fk: time=0.286 calls=1
+Execution Time: 0.853 ms
+=== W02 run 3 ===
+Insert on watch_events  (cost=0.00..0.01 rows=0 width=0) (actual time=0.172..0.172 rows=0 loops=1)
+  Buffers: shared hit=138
+  ->  Result  (cost=0.00..0.01 rows=1 width=204) (actual time=0.001..0.001 rows=1 loops=1)
+Planning:
+  Buffers: shared hit=3
+Planning Time: 0.031 ms
+Trigger for constraint watch_events_user_fk: time=0.320 calls=1
+Trigger for constraint watch_events_video_fk: time=0.331 calls=1
+Execution Time: 0.831 ms
+=== W02 run 4 ===
+Insert on watch_events  (cost=0.00..0.01 rows=0 width=0) (actual time=0.170..0.170 rows=0 loops=1)
+  Buffers: shared hit=138
+  ->  Result  (cost=0.00..0.01 rows=1 width=204) (actual time=0.001..0.001 rows=1 loops=1)
+Planning:
+  Buffers: shared hit=3
+Planning Time: 0.030 ms
+Trigger for constraint watch_events_user_fk: time=0.261 calls=1
+Trigger for constraint watch_events_video_fk: time=0.294 calls=1
+Execution Time: 0.734 ms
+=== W02 run 5 ===
+Insert on watch_events  (cost=0.00..0.01 rows=0 width=0) (actual time=0.223..0.224 rows=0 loops=1)
+  Buffers: shared hit=138
+  ->  Result  (cost=0.00..0.01 rows=1 width=204) (actual time=0.002..0.002 rows=1 loops=1)
+Planning:
+  Buffers: shared hit=3
+Planning Time: 0.040 ms
+Trigger for constraint watch_events_user_fk: time=0.342 calls=1
+Trigger for constraint watch_events_video_fk: time=0.311 calls=1
+Execution Time: 0.889 ms

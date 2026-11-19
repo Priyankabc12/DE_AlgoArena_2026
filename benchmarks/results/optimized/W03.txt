@@ -1,0 +1,50 @@
+=== W03 run 1 ===
+Update on videos  (cost=0.29..8.31 rows=0 width=0) (actual time=1.604..1.604 rows=0 loops=1)
+  Buffers: shared hit=77 read=1 dirtied=1
+  ->  Index Scan using videos_pkey on videos  (cost=0.29..8.31 rows=1 width=10) (actual time=0.015..0.016 rows=1 loops=1)
+        Index Cond: (video_id = 'ZkNSlUB1EOs'::bpchar)
+        Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=179
+Planning Time: 0.501 ms
+Execution Time: 1.640 ms
+=== W03 run 2 ===
+Update on videos  (cost=0.29..8.31 rows=0 width=0) (actual time=1.481..1.482 rows=0 loops=1)
+  Buffers: shared hit=80
+  ->  Index Scan using videos_pkey on videos  (cost=0.29..8.31 rows=1 width=10) (actual time=0.031..0.032 rows=1 loops=1)
+        Index Cond: (video_id = 'ZkNSlUB1EOs'::bpchar)
+        Buffers: shared hit=5
+Planning:
+  Buffers: shared hit=179
+Planning Time: 1.010 ms
+Execution Time: 1.526 ms
+=== W03 run 3 ===
+Update on videos  (cost=0.29..8.31 rows=0 width=0) (actual time=0.740..0.741 rows=0 loops=1)
+  Buffers: shared hit=80
+  ->  Index Scan using videos_pkey on videos  (cost=0.29..8.31 rows=1 width=10) (actual time=0.013..0.014 rows=1 loops=1)
+        Index Cond: (video_id = 'ZkNSlUB1EOs'::bpchar)
+        Buffers: shared hit=5
+Planning:
+  Buffers: shared hit=179
+Planning Time: 0.303 ms
+Execution Time: 0.760 ms
+=== W03 run 4 ===
+Update on videos  (cost=0.29..8.31 rows=0 width=0) (actual time=0.919..0.920 rows=0 loops=1)
+  Buffers: shared hit=80
+  ->  Index Scan using videos_pkey on videos  (cost=0.29..8.31 rows=1 width=10) (actual time=0.018..0.020 rows=1 loops=1)
+        Index Cond: (video_id = 'ZkNSlUB1EOs'::bpchar)
+        Buffers: shared hit=5
+Planning:
+  Buffers: shared hit=179
+Planning Time: 0.412 ms
+Execution Time: 0.950 ms
+=== W03 run 5 ===
+Update on videos  (cost=0.29..8.31 rows=0 width=0) (actual time=1.571..1.574 rows=0 loops=1)
+  Buffers: shared hit=82
+  ->  Index Scan using videos_pkey on videos  (cost=0.29..8.31 rows=1 width=10) (actual time=0.019..0.022 rows=1 loops=1)
+        Index Cond: (video_id = 'ZkNSlUB1EOs'::bpchar)
+        Buffers: shared hit=5
+Planning:
+  Buffers: shared hit=179
+Planning Time: 0.371 ms
+Execution Time: 1.606 ms

@@ -1,0 +1,115 @@
+=== R09 run 1 ===
+Sort  (cost=55.53..55.55 rows=9 width=76) (actual time=0.113..0.114 rows=12 loops=1)
+  Sort Key: (round((100.0 * avg(((w.watch_seconds)::numeric / (v.duration_sec)::numeric))), 1)) DESC
+  Sort Method: quicksort  Memory: 26kB
+  Buffers: shared hit=54
+  ->  HashAggregate  (cost=55.23..55.39 rows=9 width=76) (actual time=0.099..0.102 rows=12 loops=1)
+        Group Key: v.video_id
+        Batches: 1  Memory Usage: 24kB
+        Buffers: shared hit=51
+        ->  Nested Loop  (cost=0.83..54.33 rows=60 width=44) (actual time=0.031..0.070 rows=97 loops=1)
+              Buffers: shared hit=51
+              ->  Index Only Scan using idx_videos_channel_visibility_published on videos v  (cost=0.41..8.57 rows=9 width=40) (actual time=0.010..0.010 rows=15 loops=1)
+                    Index Cond: (channel_id = 217)
+                    Heap Fetches: 0
+                    Buffers: shared hit=4
+              ->  Index Only Scan using idx_watch_events_video_started on watch_events w  (cost=0.42..5.00 rows=8 width=16) (actual time=0.003..0.003 rows=6 loops=15)
+                    Index Cond: (video_id = v.video_id)
+                    Heap Fetches: 0
+                    Buffers: shared hit=47
+Planning:
+  Buffers: shared hit=408 read=2
+Planning Time: 1.352 ms
+Execution Time: 0.167 ms
+=== R09 run 2 ===
+Sort  (cost=55.53..55.55 rows=9 width=76) (actual time=0.157..0.157 rows=12 loops=1)
+  Sort Key: (round((100.0 * avg(((w.watch_seconds)::numeric / (v.duration_sec)::numeric))), 1)) DESC
+  Sort Method: quicksort  Memory: 26kB
+  Buffers: shared hit=54
+  ->  HashAggregate  (cost=55.23..55.39 rows=9 width=76) (actual time=0.140..0.144 rows=12 loops=1)
+        Group Key: v.video_id
+        Batches: 1  Memory Usage: 24kB
+        Buffers: shared hit=51
+        ->  Nested Loop  (cost=0.83..54.33 rows=60 width=44) (actual time=0.051..0.102 rows=97 loops=1)
+              Buffers: shared hit=51
+              ->  Index Only Scan using idx_videos_channel_visibility_published on videos v  (cost=0.41..8.57 rows=9 width=40) (actual time=0.014..0.015 rows=15 loops=1)
+                    Index Cond: (channel_id = 217)
+                    Heap Fetches: 0
+                    Buffers: shared hit=4
+              ->  Index Only Scan using idx_watch_events_video_started on watch_events w  (cost=0.42..5.00 rows=8 width=16) (actual time=0.005..0.005 rows=6 loops=15)
+                    Index Cond: (video_id = v.video_id)
+                    Heap Fetches: 0
+                    Buffers: shared hit=47
+Planning:
+  Buffers: shared hit=410
+Planning Time: 1.128 ms
+Execution Time: 0.343 ms
+=== R09 run 3 ===
+Sort  (cost=55.53..55.55 rows=9 width=76) (actual time=0.112..0.113 rows=12 loops=1)
+  Sort Key: (round((100.0 * avg(((w.watch_seconds)::numeric / (v.duration_sec)::numeric))), 1)) DESC
+  Sort Method: quicksort  Memory: 26kB
+  Buffers: shared hit=54
+  ->  HashAggregate  (cost=55.23..55.39 rows=9 width=76) (actual time=0.100..0.103 rows=12 loops=1)
+        Group Key: v.video_id
+        Batches: 1  Memory Usage: 24kB
+        Buffers: shared hit=51
+        ->  Nested Loop  (cost=0.83..54.33 rows=60 width=44) (actual time=0.021..0.069 rows=97 loops=1)
+              Buffers: shared hit=51
+              ->  Index Only Scan using idx_videos_channel_visibility_published on videos v  (cost=0.41..8.57 rows=9 width=40) (actual time=0.006..0.007 rows=15 loops=1)
+                    Index Cond: (channel_id = 217)
+                    Heap Fetches: 0
+                    Buffers: shared hit=4
+              ->  Index Only Scan using idx_watch_events_video_started on watch_events w  (cost=0.42..5.00 rows=8 width=16) (actual time=0.003..0.003 rows=6 loops=15)
+                    Index Cond: (video_id = v.video_id)
+                    Heap Fetches: 0
+                    Buffers: shared hit=47
+Planning:
+  Buffers: shared hit=410
+Planning Time: 0.685 ms
+Execution Time: 0.151 ms
+=== R09 run 4 ===
+Sort  (cost=55.53..55.55 rows=9 width=76) (actual time=0.080..0.080 rows=12 loops=1)
+  Sort Key: (round((100.0 * avg(((w.watch_seconds)::numeric / (v.duration_sec)::numeric))), 1)) DESC
+  Sort Method: quicksort  Memory: 26kB
+  Buffers: shared hit=54
+  ->  HashAggregate  (cost=55.23..55.39 rows=9 width=76) (actual time=0.070..0.073 rows=12 loops=1)
+        Group Key: v.video_id
+        Batches: 1  Memory Usage: 24kB
+        Buffers: shared hit=51
+        ->  Nested Loop  (cost=0.83..54.33 rows=60 width=44) (actual time=0.018..0.046 rows=97 loops=1)
+              Buffers: shared hit=51
+              ->  Index Only Scan using idx_videos_channel_visibility_published on videos v  (cost=0.41..8.57 rows=9 width=40) (actual time=0.005..0.005 rows=15 loops=1)
+                    Index Cond: (channel_id = 217)
+                    Heap Fetches: 0
+                    Buffers: shared hit=4
+              ->  Index Only Scan using idx_watch_events_video_started on watch_events w  (cost=0.42..5.00 rows=8 width=16) (actual time=0.002..0.002 rows=6 loops=15)
+                    Index Cond: (video_id = v.video_id)
+                    Heap Fetches: 0
+                    Buffers: shared hit=47
+Planning:
+  Buffers: shared hit=410
+Planning Time: 0.797 ms
+Execution Time: 0.124 ms
+=== R09 run 5 ===
+Sort  (cost=55.53..55.55 rows=9 width=76) (actual time=0.163..0.165 rows=12 loops=1)
+  Sort Key: (round((100.0 * avg(((w.watch_seconds)::numeric / (v.duration_sec)::numeric))), 1)) DESC
+  Sort Method: quicksort  Memory: 26kB
+  Buffers: shared hit=54
+  ->  HashAggregate  (cost=55.23..55.39 rows=9 width=76) (actual time=0.142..0.147 rows=12 loops=1)
+        Group Key: v.video_id
+        Batches: 1  Memory Usage: 24kB
+        Buffers: shared hit=51
+        ->  Nested Loop  (cost=0.83..54.33 rows=60 width=44) (actual time=0.039..0.105 rows=97 loops=1)
+              Buffers: shared hit=51
+              ->  Index Only Scan using idx_videos_channel_visibility_published on videos v  (cost=0.41..8.57 rows=9 width=40) (actual time=0.010..0.012 rows=15 loops=1)
+                    Index Cond: (channel_id = 217)
+                    Heap Fetches: 0
+                    Buffers: shared hit=4
+              ->  Index Only Scan using idx_watch_events_video_started on watch_events w  (cost=0.42..5.00 rows=8 width=16) (actual time=0.005..0.006 rows=6 loops=15)
+                    Index Cond: (video_id = v.video_id)
+                    Heap Fetches: 0
+                    Buffers: shared hit=47
+Planning:
+  Buffers: shared hit=410
+Planning Time: 0.993 ms
+Execution Time: 0.226 ms

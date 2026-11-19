@@ -1,0 +1,70 @@
+=== W05 run 1 ===
+Update on videos  (cost=8.58..180.88 rows=0 width=0) (actual time=1.081..1.081 rows=0 loops=1)
+  Buffers: shared hit=195 dirtied=33
+  ->  Bitmap Heap Scan on videos  (cost=8.58..180.88 rows=57 width=64) (actual time=0.015..0.027 rows=7 loops=1)
+        Recheck Cond: ((published_at <= '2026-07-03 00:00:00+05:30'::timestamp with time zone) AND ((visibility)::text = 'SCHEDULED'::text))
+        Heap Blocks: exact=7
+        Buffers: shared hit=8
+        ->  Bitmap Index Scan on idx_videos_scheduled_published  (cost=0.00..8.57 rows=57 width=0) (actual time=0.007..0.007 rows=7 loops=1)
+              Index Cond: (published_at <= '2026-07-03 00:00:00+05:30'::timestamp with time zone)
+              Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=193
+Planning Time: 0.464 ms
+Execution Time: 1.104 ms
+=== W05 run 2 ===
+Update on videos  (cost=8.58..180.88 rows=0 width=0) (actual time=1.377..1.378 rows=0 loops=1)
+  Buffers: shared hit=188 dirtied=1 written=1
+  ->  Bitmap Heap Scan on videos  (cost=8.58..180.88 rows=57 width=64) (actual time=0.018..0.060 rows=7 loops=1)
+        Recheck Cond: ((published_at <= '2026-07-03 00:00:00+05:30'::timestamp with time zone) AND ((visibility)::text = 'SCHEDULED'::text))
+        Heap Blocks: exact=7
+        Buffers: shared hit=8
+        ->  Bitmap Index Scan on idx_videos_scheduled_published  (cost=0.00..8.57 rows=57 width=0) (actual time=0.006..0.007 rows=7 loops=1)
+              Index Cond: (published_at <= '2026-07-03 00:00:00+05:30'::timestamp with time zone)
+              Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=193
+Planning Time: 0.433 ms
+Execution Time: 1.405 ms
+=== W05 run 3 ===
+Update on videos  (cost=8.58..180.88 rows=0 width=0) (actual time=1.201..1.201 rows=0 loops=1)
+  Buffers: shared hit=188
+  ->  Bitmap Heap Scan on videos  (cost=8.58..180.88 rows=57 width=64) (actual time=0.020..0.040 rows=7 loops=1)
+        Recheck Cond: ((published_at <= '2026-07-03 00:00:00+05:30'::timestamp with time zone) AND ((visibility)::text = 'SCHEDULED'::text))
+        Heap Blocks: exact=7
+        Buffers: shared hit=8
+        ->  Bitmap Index Scan on idx_videos_scheduled_published  (cost=0.00..8.57 rows=57 width=0) (actual time=0.006..0.006 rows=7 loops=1)
+              Index Cond: (published_at <= '2026-07-03 00:00:00+05:30'::timestamp with time zone)
+              Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=193
+Planning Time: 0.459 ms
+Execution Time: 1.224 ms
+=== W05 run 4 ===
+Update on videos  (cost=8.58..180.88 rows=0 width=0) (actual time=1.115..1.115 rows=0 loops=1)
+  Buffers: shared hit=188 dirtied=1 written=1
+  ->  Bitmap Heap Scan on videos  (cost=8.58..180.88 rows=57 width=64) (actual time=0.018..0.048 rows=7 loops=1)
+        Recheck Cond: ((published_at <= '2026-07-03 00:00:00+05:30'::timestamp with time zone) AND ((visibility)::text = 'SCHEDULED'::text))
+        Heap Blocks: exact=7
+        Buffers: shared hit=8
+        ->  Bitmap Index Scan on idx_videos_scheduled_published  (cost=0.00..8.57 rows=57 width=0) (actual time=0.006..0.006 rows=7 loops=1)
+              Index Cond: (published_at <= '2026-07-03 00:00:00+05:30'::timestamp with time zone)
+              Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=193
+Planning Time: 0.399 ms
+Execution Time: 1.135 ms
+=== W05 run 5 ===
+Update on videos  (cost=8.58..180.88 rows=0 width=0) (actual time=0.982..0.983 rows=0 loops=1)
+  Buffers: shared hit=188
+  ->  Bitmap Heap Scan on videos  (cost=8.58..180.88 rows=57 width=64) (actual time=0.015..0.036 rows=7 loops=1)
+        Recheck Cond: ((published_at <= '2026-07-03 00:00:00+05:30'::timestamp with time zone) AND ((visibility)::text = 'SCHEDULED'::text))
+        Heap Blocks: exact=7
+        Buffers: shared hit=8
+        ->  Bitmap Index Scan on idx_videos_scheduled_published  (cost=0.00..8.57 rows=57 width=0) (actual time=0.006..0.006 rows=7 loops=1)
+              Index Cond: (published_at <= '2026-07-03 00:00:00+05:30'::timestamp with time zone)
+              Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=193
+Planning Time: 0.397 ms
+Execution Time: 1.000 ms

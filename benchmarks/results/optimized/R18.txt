@@ -1,0 +1,95 @@
+=== R18 run 1 ===
+Sort  (cost=1817.85..1818.71 rows=345 width=40) (actual time=16.261..16.269 rows=397 loops=1)
+  Sort Key: v.video_id
+  Sort Method: quicksort  Memory: 56kB
+  Buffers: shared hit=1795 read=340
+  ->  Nested Loop Semi Join  (cost=0.41..1803.31 rows=345 width=40) (actual time=0.142..16.166 rows=397 loops=1)
+        Buffers: shared hit=1792 read=340
+        ->  Seq Scan on videos v  (cost=0.00..934.00 rows=499 width=40) (actual time=0.015..2.234 rows=499 loops=1)
+              Filter: is_made_for_kids
+              Rows Removed by Filter: 29501
+              Buffers: shared hit=634
+        ->  Index Only Scan using idx_comments_video_top_rank on comments c  (cost=0.41..3.29 rows=3 width=12) (actual time=0.028..0.028 rows=1 loops=499)
+              Index Cond: (video_id = v.video_id)
+              Heap Fetches: 0
+              Buffers: shared hit=1158 read=340
+Planning:
+  Buffers: shared hit=359 read=4
+Planning Time: 1.094 ms
+Execution Time: 16.309 ms
+=== R18 run 2 ===
+Sort  (cost=1817.85..1818.71 rows=345 width=40) (actual time=2.734..2.740 rows=397 loops=1)
+  Sort Key: v.video_id
+  Sort Method: quicksort  Memory: 56kB
+  Buffers: shared hit=2135
+  ->  Nested Loop Semi Join  (cost=0.41..1803.31 rows=345 width=40) (actual time=0.032..2.659 rows=397 loops=1)
+        Buffers: shared hit=2132
+        ->  Seq Scan on videos v  (cost=0.00..934.00 rows=499 width=40) (actual time=0.023..1.906 rows=499 loops=1)
+              Filter: is_made_for_kids
+              Rows Removed by Filter: 29501
+              Buffers: shared hit=634
+        ->  Index Only Scan using idx_comments_video_top_rank on comments c  (cost=0.41..3.29 rows=3 width=12) (actual time=0.001..0.001 rows=1 loops=499)
+              Index Cond: (video_id = v.video_id)
+              Heap Fetches: 0
+              Buffers: shared hit=1498
+Planning:
+  Buffers: shared hit=363
+Planning Time: 1.007 ms
+Execution Time: 2.797 ms
+=== R18 run 3 ===
+Sort  (cost=1817.85..1818.71 rows=345 width=40) (actual time=4.240..4.255 rows=397 loops=1)
+  Sort Key: v.video_id
+  Sort Method: quicksort  Memory: 56kB
+  Buffers: shared hit=2135
+  ->  Nested Loop Semi Join  (cost=0.41..1803.31 rows=345 width=40) (actual time=0.017..4.127 rows=397 loops=1)
+        Buffers: shared hit=2132
+        ->  Seq Scan on videos v  (cost=0.00..934.00 rows=499 width=40) (actual time=0.011..2.881 rows=499 loops=1)
+              Filter: is_made_for_kids
+              Rows Removed by Filter: 29501
+              Buffers: shared hit=634
+        ->  Index Only Scan using idx_comments_video_top_rank on comments c  (cost=0.41..3.29 rows=3 width=12) (actual time=0.002..0.002 rows=1 loops=499)
+              Index Cond: (video_id = v.video_id)
+              Heap Fetches: 0
+              Buffers: shared hit=1498
+Planning:
+  Buffers: shared hit=363
+Planning Time: 1.259 ms
+Execution Time: 4.297 ms
+=== R18 run 4 ===
+Sort  (cost=1817.85..1818.71 rows=345 width=40) (actual time=2.596..2.603 rows=397 loops=1)
+  Sort Key: v.video_id
+  Sort Method: quicksort  Memory: 56kB
+  Buffers: shared hit=2135
+  ->  Nested Loop Semi Join  (cost=0.41..1803.31 rows=345 width=40) (actual time=0.014..2.533 rows=397 loops=1)
+        Buffers: shared hit=2132
+        ->  Seq Scan on videos v  (cost=0.00..934.00 rows=499 width=40) (actual time=0.009..1.812 rows=499 loops=1)
+              Filter: is_made_for_kids
+              Rows Removed by Filter: 29501
+              Buffers: shared hit=634
+        ->  Index Only Scan using idx_comments_video_top_rank on comments c  (cost=0.41..3.29 rows=3 width=12) (actual time=0.001..0.001 rows=1 loops=499)
+              Index Cond: (video_id = v.video_id)
+              Heap Fetches: 0
+              Buffers: shared hit=1498
+Planning:
+  Buffers: shared hit=363
+Planning Time: 0.615 ms
+Execution Time: 2.635 ms
+=== R18 run 5 ===
+Sort  (cost=1817.85..1818.71 rows=345 width=40) (actual time=3.509..3.520 rows=397 loops=1)
+  Sort Key: v.video_id
+  Sort Method: quicksort  Memory: 56kB
+  Buffers: shared hit=2135
+  ->  Nested Loop Semi Join  (cost=0.41..1803.31 rows=345 width=40) (actual time=0.021..3.430 rows=397 loops=1)
+        Buffers: shared hit=2132
+        ->  Seq Scan on videos v  (cost=0.00..934.00 rows=499 width=40) (actual time=0.015..2.469 rows=499 loops=1)
+              Filter: is_made_for_kids
+              Rows Removed by Filter: 29501
+              Buffers: shared hit=634
+        ->  Index Only Scan using idx_comments_video_top_rank on comments c  (cost=0.41..3.29 rows=3 width=12) (actual time=0.002..0.002 rows=1 loops=499)
+              Index Cond: (video_id = v.video_id)
+              Heap Fetches: 0
+              Buffers: shared hit=1498
+Planning:
+  Buffers: shared hit=363
+Planning Time: 0.662 ms
+Execution Time: 3.557 ms
