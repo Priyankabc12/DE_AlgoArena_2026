@@ -1,0 +1,75 @@
+=== R05 run 1 ===
+Limit  (cost=4490.86..4491.32 rows=4 width=48) (actual time=8.920..10.331 rows=4 loops=1)
+  Buffers: shared hit=2008
+  ->  Gather Merge  (cost=4490.86..4491.32 rows=4 width=48) (actual time=8.918..10.329 rows=4 loops=1)
+        Workers Planned: 1
+        Workers Launched: 1
+        Buffers: shared hit=2008
+        ->  Sort  (cost=3490.85..3490.86 rows=4 width=48) (actual time=7.715..7.715 rows=2 loops=2)
+              Sort Key: w.started_at DESC
+              Sort Method: quicksort  Memory: 25kB
+              Buffers: shared hit=2008
+              Worker 0:  Sort Method: quicksort  Memory: 25kB
+              ->  Nested Loop  (cost=0.29..3490.81 rows=4 width=48) (actual time=1.232..7.693 rows=2 loops=2)
+                    Buffers: shared hit=2000
+                    ->  Parallel Seq Scan on watch_events w  (cost=0.00..3457.59 rows=4 width=24) (actual time=1.189..7.611 rows=2 loops=2)
+                          Filter: (user_id = 1042)
+                          Rows Removed by Filter: 99998
+                          Buffers: shared hit=1987
+                    ->  Index Scan using videos_pkey on videos v  (cost=0.29..8.30 rows=1 width=36) (actual time=0.027..0.027 rows=1 loops=4)
+                          Index Cond: (video_id = w.video_id)
+                          Buffers: shared hit=13
+Planning:
+  Buffers: shared hit=207
+Planning Time: 0.405 ms
+Execution Time: 10.352 ms
+=== R05 run 2 ===
+Limit  (cost=4490.86..4491.32 rows=4 width=48) (actual time=5.581..6.330 rows=4 loops=1)
+  Buffers: shared hit=2008
+  ->  Gather Merge  (cost=4490.86..4491.32 rows=4 width=48) (actual time=5.580..6.328 rows=4 loops=1)
+        Workers Planned: 1
+        Workers Launched: 1
+        Buffers: shared hit=2008
+        ->  Sort  (cost=3490.85..3490.86 rows=4 width=48) (actual time=4.205..4.205 rows=2 loops=2)
+              Sort Key: w.started_at DESC
+              Sort Method: quicksort  Memory: 25kB
+              Buffers: shared hit=2008
+              Worker 0:  Sort Method: quicksort  Memory: 25kB
+              ->  Nested Loop  (cost=0.29..3490.81 rows=4 width=48) (actual time=0.473..4.193 rows=2 loops=2)
+                    Buffers: shared hit=2000
+                    ->  Parallel Seq Scan on watch_events w  (cost=0.00..3457.59 rows=4 width=24) (actual time=0.456..4.169 rows=2 loops=2)
+                          Filter: (user_id = 1042)
+                          Rows Removed by Filter: 99998
+                          Buffers: shared hit=1987
+                    ->  Index Scan using videos_pkey on videos v  (cost=0.29..8.30 rows=1 width=36) (actual time=0.009..0.009 rows=1 loops=4)
+                          Index Cond: (video_id = w.video_id)
+                          Buffers: shared hit=13
+Planning:
+  Buffers: shared hit=207
+Planning Time: 0.431 ms
+Execution Time: 6.360 ms
+=== R05 run 3 ===
+Limit  (cost=4490.86..4491.32 rows=4 width=48) (actual time=6.368..7.323 rows=4 loops=1)
+  Buffers: shared hit=2008
+  ->  Gather Merge  (cost=4490.86..4491.32 rows=4 width=48) (actual time=6.367..7.322 rows=4 loops=1)
+        Workers Planned: 1
+        Workers Launched: 1
+        Buffers: shared hit=2008
+        ->  Sort  (cost=3490.85..3490.86 rows=4 width=48) (actual time=4.500..4.500 rows=2 loops=2)
+              Sort Key: w.started_at DESC
+              Sort Method: quicksort  Memory: 25kB
+              Buffers: shared hit=2008
+              Worker 0:  Sort Method: quicksort  Memory: 25kB
+              ->  Nested Loop  (cost=0.29..3490.81 rows=4 width=48) (actual time=0.115..4.482 rows=2 loops=2)
+                    Buffers: shared hit=2000
+                    ->  Parallel Seq Scan on watch_events w  (cost=0.00..3457.59 rows=4 width=24) (actual time=0.100..4.459 rows=2 loops=2)
+                          Filter: (user_id = 1042)
+                          Rows Removed by Filter: 99998
+                          Buffers: shared hit=1987
+                    ->  Index Scan using videos_pkey on videos v  (cost=0.29..8.30 rows=1 width=36) (actual time=0.009..0.009 rows=1 loops=4)
+                          Index Cond: (video_id = w.video_id)
+                          Buffers: shared hit=13
+Planning:
+  Buffers: shared hit=207
+Planning Time: 0.302 ms
+Execution Time: 7.345 ms
