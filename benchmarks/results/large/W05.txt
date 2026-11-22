@@ -1,0 +1,42 @@
+=== W05 run 1 ===
+Update on videos  (cost=16.03..3128.00 rows=0 width=0) (actual time=16.009..16.010 rows=0 loops=1)
+  Buffers: shared hit=1852 read=509 dirtied=550 written=9
+  ->  Bitmap Heap Scan on videos  (cost=16.03..3128.00 rows=1017 width=64) (actual time=0.019..0.330 rows=109 loops=1)
+        Recheck Cond: ((published_at <= '2026-07-03 00:00:00+05:30'::timestamp with time zone) AND ((visibility)::text = 'SCHEDULED'::text))
+        Heap Blocks: exact=109
+        Buffers: shared read=110
+        ->  Bitmap Index Scan on idx_videos_scheduled_published  (cost=0.00..15.78 rows=1017 width=0) (actual time=0.007..0.007 rows=109 loops=1)
+              Index Cond: (published_at <= '2026-07-03 00:00:00+05:30'::timestamp with time zone)
+              Buffers: shared read=1
+Planning:
+  Buffers: shared hit=193
+Planning Time: 0.336 ms
+Execution Time: 16.029 ms
+=== W05 run 2 ===
+Update on videos  (cost=16.03..3128.07 rows=0 width=0) (actual time=2.529..2.529 rows=0 loops=1)
+  Buffers: shared hit=2350 dirtied=10 written=10
+  ->  Bitmap Heap Scan on videos  (cost=16.03..3128.07 rows=1017 width=64) (actual time=0.016..0.203 rows=109 loops=1)
+        Recheck Cond: ((published_at <= '2026-07-03 00:00:00+05:30'::timestamp with time zone) AND ((visibility)::text = 'SCHEDULED'::text))
+        Heap Blocks: exact=109
+        Buffers: shared hit=110
+        ->  Bitmap Index Scan on idx_videos_scheduled_published  (cost=0.00..15.78 rows=1017 width=0) (actual time=0.005..0.005 rows=109 loops=1)
+              Index Cond: (published_at <= '2026-07-03 00:00:00+05:30'::timestamp with time zone)
+              Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=193
+Planning Time: 0.317 ms
+Execution Time: 2.544 ms
+=== W05 run 3 ===
+Update on videos  (cost=16.04..3130.94 rows=0 width=0) (actual time=2.523..2.523 rows=0 loops=1)
+  Buffers: shared hit=2350 dirtied=8 written=8
+  ->  Bitmap Heap Scan on videos  (cost=16.04..3130.94 rows=1018 width=64) (actual time=0.019..0.205 rows=109 loops=1)
+        Recheck Cond: ((published_at <= '2026-07-03 00:00:00+05:30'::timestamp with time zone) AND ((visibility)::text = 'SCHEDULED'::text))
+        Heap Blocks: exact=109
+        Buffers: shared hit=110
+        ->  Bitmap Index Scan on idx_videos_scheduled_published  (cost=0.00..15.79 rows=1018 width=0) (actual time=0.005..0.005 rows=109 loops=1)
+              Index Cond: (published_at <= '2026-07-03 00:00:00+05:30'::timestamp with time zone)
+              Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=193
+Planning Time: 0.335 ms
+Execution Time: 2.536 ms

@@ -1,0 +1,30 @@
+=== R23 run 1 ===
+Limit  (cost=1511.83..1513.09 rows=25 width=48) (actual time=3.489..3.491 rows=25 loops=1)
+  Buffers: shared hit=1 read=267
+  ->  Index Only Scan using idx_comments_created_desc on comments  (cost=0.43..60456.43 rows=1200000 width=48) (actual time=0.368..2.990 rows=30025 loops=1)
+        Heap Fetches: 0
+        Buffers: shared hit=1 read=267
+Planning:
+  Buffers: shared hit=159 read=3
+Planning Time: 0.266 ms
+Execution Time: 3.500 ms
+=== R23 run 2 ===
+Limit  (cost=1511.83..1513.09 rows=25 width=48) (actual time=2.042..2.044 rows=25 loops=1)
+  Buffers: shared hit=268
+  ->  Index Only Scan using idx_comments_created_desc on comments  (cost=0.43..60456.43 rows=1200000 width=48) (actual time=0.024..1.545 rows=30025 loops=1)
+        Heap Fetches: 0
+        Buffers: shared hit=268
+Planning:
+  Buffers: shared hit=162
+Planning Time: 0.228 ms
+Execution Time: 2.054 ms
+=== R23 run 3 ===
+Limit  (cost=1511.83..1513.09 rows=25 width=48) (actual time=2.216..2.217 rows=25 loops=1)
+  Buffers: shared hit=268
+  ->  Index Only Scan using idx_comments_created_desc on comments  (cost=0.43..60456.43 rows=1200000 width=48) (actual time=0.027..1.688 rows=30025 loops=1)
+        Heap Fetches: 0
+        Buffers: shared hit=268
+Planning:
+  Buffers: shared hit=162
+Planning Time: 0.211 ms
+Execution Time: 2.228 ms

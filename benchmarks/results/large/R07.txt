@@ -1,0 +1,66 @@
+=== R07 run 1 ===
+GroupAggregate  (cost=83.76..83.91 rows=5 width=44) (actual time=10.741..10.745 rows=13 loops=1)
+  Group Key: (date(w.started_at))
+  Buffers: shared hit=137 read=131
+  ->  Sort  (cost=83.76..83.77 rows=5 width=8) (actual time=10.732..10.732 rows=20 loops=1)
+        Sort Key: (date(w.started_at))
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=137 read=131
+        ->  Nested Loop  (cost=0.98..83.70 rows=5 width=8) (actual time=0.270..10.722 rows=20 loops=1)
+              Buffers: shared hit=134 read=131
+              ->  Index Only Scan using idx_videos_channel_visibility_published on videos v  (cost=0.42..4.63 rows=12 width=12) (actual time=0.007..0.018 rows=60 loops=1)
+                    Index Cond: (channel_id = 217)
+                    Heap Fetches: 0
+                    Buffers: shared hit=5
+              ->  Index Only Scan using idx_watch_events_video_started on watch_events w  (cost=0.56..6.58 rows=1 width=24) (actual time=0.178..0.178 rows=0 loops=60)
+                    Index Cond: ((video_id = v.video_id) AND (started_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (started_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Heap Fetches: 20
+                    Buffers: shared hit=129 read=131
+Planning:
+  Buffers: shared hit=449 read=4
+Planning Time: 0.617 ms
+Execution Time: 10.777 ms
+=== R07 run 2 ===
+GroupAggregate  (cost=83.76..83.91 rows=5 width=44) (actual time=0.275..0.279 rows=13 loops=1)
+  Group Key: (date(w.started_at))
+  Buffers: shared hit=268
+  ->  Sort  (cost=83.76..83.77 rows=5 width=8) (actual time=0.268..0.269 rows=20 loops=1)
+        Sort Key: (date(w.started_at))
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=268
+        ->  Nested Loop  (cost=0.98..83.70 rows=5 width=8) (actual time=0.016..0.261 rows=20 loops=1)
+              Buffers: shared hit=265
+              ->  Index Only Scan using idx_videos_channel_visibility_published on videos v  (cost=0.42..4.63 rows=12 width=12) (actual time=0.007..0.011 rows=60 loops=1)
+                    Index Cond: (channel_id = 217)
+                    Heap Fetches: 0
+                    Buffers: shared hit=5
+              ->  Index Only Scan using idx_watch_events_video_started on watch_events w  (cost=0.56..6.58 rows=1 width=24) (actual time=0.004..0.004 rows=0 loops=60)
+                    Index Cond: ((video_id = v.video_id) AND (started_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (started_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Heap Fetches: 20
+                    Buffers: shared hit=260
+Planning:
+  Buffers: shared hit=453
+Planning Time: 0.619 ms
+Execution Time: 0.310 ms
+=== R07 run 3 ===
+GroupAggregate  (cost=83.76..83.91 rows=5 width=44) (actual time=0.281..0.285 rows=13 loops=1)
+  Group Key: (date(w.started_at))
+  Buffers: shared hit=268
+  ->  Sort  (cost=83.76..83.77 rows=5 width=8) (actual time=0.276..0.276 rows=20 loops=1)
+        Sort Key: (date(w.started_at))
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=268
+        ->  Nested Loop  (cost=0.98..83.70 rows=5 width=8) (actual time=0.017..0.268 rows=20 loops=1)
+              Buffers: shared hit=265
+              ->  Index Only Scan using idx_videos_channel_visibility_published on videos v  (cost=0.42..4.63 rows=12 width=12) (actual time=0.007..0.013 rows=60 loops=1)
+                    Index Cond: (channel_id = 217)
+                    Heap Fetches: 0
+                    Buffers: shared hit=5
+              ->  Index Only Scan using idx_watch_events_video_started on watch_events w  (cost=0.56..6.58 rows=1 width=24) (actual time=0.004..0.004 rows=0 loops=60)
+                    Index Cond: ((video_id = v.video_id) AND (started_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (started_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Heap Fetches: 20
+                    Buffers: shared hit=260
+Planning:
+  Buffers: shared hit=453
+Planning Time: 0.597 ms
+Execution Time: 0.316 ms

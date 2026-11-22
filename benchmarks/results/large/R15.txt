@@ -1,0 +1,45 @@
+=== R15 run 1 ===
+Limit  (cost=4.51..4.52 rows=3 width=33) (actual time=0.863..0.863 rows=4 loops=1)
+  Buffers: shared hit=8 read=4
+  ->  Sort  (cost=4.51..4.52 rows=3 width=33) (actual time=0.862..0.863 rows=4 loops=1)
+        Sort Key: is_pinned DESC, like_count DESC
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=8 read=4
+        ->  Index Only Scan using idx_comments_video_top_rank on comments  (cost=0.43..4.49 rows=3 width=33) (actual time=0.852..0.853 rows=4 loops=1)
+              Index Cond: ((video_id = 'ZkNSlUB1EOs'::bpchar) AND (parent_comment_id IS NULL))
+              Heap Fetches: 0
+              Buffers: shared read=4
+Planning:
+  Buffers: shared hit=173 read=4 dirtied=1
+Planning Time: 0.722 ms
+Execution Time: 0.874 ms
+=== R15 run 2 ===
+Limit  (cost=4.51..4.52 rows=3 width=33) (actual time=0.033..0.033 rows=4 loops=1)
+  Buffers: shared hit=12
+  ->  Sort  (cost=4.51..4.52 rows=3 width=33) (actual time=0.032..0.032 rows=4 loops=1)
+        Sort Key: is_pinned DESC, like_count DESC
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=12
+        ->  Index Only Scan using idx_comments_video_top_rank on comments  (cost=0.43..4.49 rows=3 width=33) (actual time=0.022..0.023 rows=4 loops=1)
+              Index Cond: ((video_id = 'ZkNSlUB1EOs'::bpchar) AND (parent_comment_id IS NULL))
+              Heap Fetches: 0
+              Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=177
+Planning Time: 0.249 ms
+Execution Time: 0.045 ms
+=== R15 run 3 ===
+Limit  (cost=4.51..4.52 rows=3 width=33) (actual time=0.032..0.033 rows=4 loops=1)
+  Buffers: shared hit=12
+  ->  Sort  (cost=4.51..4.52 rows=3 width=33) (actual time=0.032..0.032 rows=4 loops=1)
+        Sort Key: is_pinned DESC, like_count DESC
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=12
+        ->  Index Only Scan using idx_comments_video_top_rank on comments  (cost=0.43..4.49 rows=3 width=33) (actual time=0.022..0.023 rows=4 loops=1)
+              Index Cond: ((video_id = 'ZkNSlUB1EOs'::bpchar) AND (parent_comment_id IS NULL))
+              Heap Fetches: 0
+              Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=177
+Planning Time: 0.245 ms
+Execution Time: 0.044 ms

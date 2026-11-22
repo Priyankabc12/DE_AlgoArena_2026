@@ -1,0 +1,75 @@
+=== R13 run 1 ===
+Hash Anti Join  (cost=255.69..261.68 rows=66 width=12) (actual time=0.589..0.633 rows=531 loops=1)
+  Hash Cond: (s.user_id = w.user_id)
+  Buffers: shared hit=466 read=5
+  ->  Index Only Scan using idx_subscriptions_channel_subscribed on subscriptions s  (cost=0.43..5.58 rows=66 width=12) (actual time=0.015..0.035 rows=531 loops=1)
+        Index Cond: (channel_id = 217)
+        Heap Fetches: 0
+        Buffers: shared hit=1 read=5
+  ->  Hash  (cost=254.26..254.26 rows=80 width=4) (actual time=0.570..0.570 rows=314 loops=1)
+        Buckets: 1024  Batches: 1  Memory Usage: 20kB
+        Buffers: shared hit=465
+        ->  Nested Loop  (cost=0.98..254.26 rows=80 width=4) (actual time=0.022..0.551 rows=410 loops=1)
+              Buffers: shared hit=465
+              ->  Index Only Scan using idx_videos_channel_visibility_published on videos v  (cost=0.42..4.63 rows=12 width=12) (actual time=0.009..0.016 rows=60 loops=1)
+                    Index Cond: (channel_id = 217)
+                    Heap Fetches: 0
+                    Buffers: shared hit=5
+              ->  Index Only Scan using idx_watch_events_video_started on watch_events w  (cost=0.56..20.71 rows=9 width=16) (actual time=0.004..0.008 rows=7 loops=60)
+                    Index Cond: (video_id = v.video_id)
+                    Heap Fetches: 187
+                    Buffers: shared hit=460
+Planning:
+  Buffers: shared hit=558 read=12
+Planning Time: 1.498 ms
+Execution Time: 0.674 ms
+=== R13 run 2 ===
+Hash Anti Join  (cost=255.69..261.68 rows=66 width=12) (actual time=0.486..0.525 rows=531 loops=1)
+  Hash Cond: (s.user_id = w.user_id)
+  Buffers: shared hit=471
+  ->  Index Only Scan using idx_subscriptions_channel_subscribed on subscriptions s  (cost=0.43..5.58 rows=66 width=12) (actual time=0.007..0.024 rows=531 loops=1)
+        Index Cond: (channel_id = 217)
+        Heap Fetches: 0
+        Buffers: shared hit=6
+  ->  Hash  (cost=254.26..254.26 rows=80 width=4) (actual time=0.476..0.476 rows=314 loops=1)
+        Buckets: 1024  Batches: 1  Memory Usage: 20kB
+        Buffers: shared hit=465
+        ->  Nested Loop  (cost=0.98..254.26 rows=80 width=4) (actual time=0.018..0.460 rows=410 loops=1)
+              Buffers: shared hit=465
+              ->  Index Only Scan using idx_videos_channel_visibility_published on videos v  (cost=0.42..4.63 rows=12 width=12) (actual time=0.008..0.013 rows=60 loops=1)
+                    Index Cond: (channel_id = 217)
+                    Heap Fetches: 0
+                    Buffers: shared hit=5
+              ->  Index Only Scan using idx_watch_events_video_started on watch_events w  (cost=0.56..20.71 rows=9 width=16) (actual time=0.004..0.007 rows=7 loops=60)
+                    Index Cond: (video_id = v.video_id)
+                    Heap Fetches: 187
+                    Buffers: shared hit=460
+Planning:
+  Buffers: shared hit=570
+Planning Time: 0.850 ms
+Execution Time: 0.561 ms
+=== R13 run 3 ===
+Hash Anti Join  (cost=255.69..261.68 rows=66 width=12) (actual time=0.511..0.550 rows=531 loops=1)
+  Hash Cond: (s.user_id = w.user_id)
+  Buffers: shared hit=471
+  ->  Index Only Scan using idx_subscriptions_channel_subscribed on subscriptions s  (cost=0.43..5.58 rows=66 width=12) (actual time=0.007..0.024 rows=531 loops=1)
+        Index Cond: (channel_id = 217)
+        Heap Fetches: 0
+        Buffers: shared hit=6
+  ->  Hash  (cost=254.26..254.26 rows=80 width=4) (actual time=0.501..0.501 rows=314 loops=1)
+        Buckets: 1024  Batches: 1  Memory Usage: 20kB
+        Buffers: shared hit=465
+        ->  Nested Loop  (cost=0.98..254.26 rows=80 width=4) (actual time=0.019..0.484 rows=410 loops=1)
+              Buffers: shared hit=465
+              ->  Index Only Scan using idx_videos_channel_visibility_published on videos v  (cost=0.42..4.63 rows=12 width=12) (actual time=0.007..0.013 rows=60 loops=1)
+                    Index Cond: (channel_id = 217)
+                    Heap Fetches: 0
+                    Buffers: shared hit=5
+              ->  Index Only Scan using idx_watch_events_video_started on watch_events w  (cost=0.56..20.71 rows=9 width=16) (actual time=0.004..0.008 rows=7 loops=60)
+                    Index Cond: (video_id = v.video_id)
+                    Heap Fetches: 187
+                    Buffers: shared hit=460
+Planning:
+  Buffers: shared hit=570
+Planning Time: 0.837 ms
+Execution Time: 0.586 ms
